@@ -1,0 +1,20 @@
+# GitHub上需要配置用到的变量!
+name: ci
+
+on: push
+
+jobs:
+  docker_image:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: RUN
+        env:
+          DOCKER_IMAGE: ${{ vars.DOCKER_HUB_HOST }}/${{ vars.DOCKER_HUB_NAME }}:${{ vars.VERSION_NAME }}
+        run: |
+          docker build -t ${{ env.DOCKER_IMAGE }} .
+          echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login --username ${{ vars.DOCKER_HUB_USERNAME }} --password-stdin ${{ vars.DOCKER_HUB_HOST }}
+          docker push ${{ env.DOCKER_IMAGE }}
