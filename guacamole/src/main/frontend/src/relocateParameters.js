@@ -114,6 +114,7 @@
 
         // Reformat the URL such that query parameters are after Angular's path
         var reformattedUrl = appendParameters(baseUrl + angularUrl, parameters);
+        console.log('调试', reformattedUrl);
 
         // Simply rewrite the visible URL if the HTML5 History API is supported
         if (window.history && history.replaceState)
